@@ -21,7 +21,7 @@
 
 </body>
 <script src="https://johnson2heng.github.io/three.js-demo/lib/three.js"></script>
-<script src="./exampleJs/clock.js"></script>
+<script src="https://johnson2heng.github.io/three.js-demo/lib/js/controls/OrbitControls.js"></script>
 <script>
   var width = window.innerWidth;
   var height = window.innerHeight;
@@ -31,7 +31,7 @@
   var camera;
   var mesh2;
   var texture;
-  var canvas_Colck = clockStart();
+  var controls;
   // 渲染器
   function renders() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -45,36 +45,60 @@
   // 相机
   function cameras() {
     camera = new THREE.PerspectiveCamera(45, width / window.height, 0.1, 1000);
-    camera.position.set(0, 0, 800);
+    camera.position.set(300, 300, 300);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
   }
+
   // 几何体
   function geometry() {
-    //立方体
-    var cubeGeometry = new THREE.CubeGeometry(100, 100, 100);
-    texture = new THREE.Texture(canvas_Colck);
-    texture.needsUpdate = true;
-    var cubeMaterial = new THREE.MeshBasicMaterial({
-      map: texture,
-      // color: 0x00ffff
-    });
-    mesh2 = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    mesh2.position.set(0, 100, 0);
-    mesh2.castShadow = true;// 告诉立方体需要投射阴影
+    var geometry = new THREE.BoxGeometry(30, 30, 30);
+    // 生成随机颜色- 给几何体每一面的不一样的颜色
+    for (var i = 0; i < geometry.faces.length; i += 2) {
+      var hex = Math.random() * 0xffffff;
+      geometry.faces[i].color.setHex(hex);
+      geometry.faces[i + 1].color.setHex(hex);
+    }
+    var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
+    mesh2 = new THREE.Mesh(geometry, material);
+    mesh2.position = new THREE.Vector3(0, 0, 0);
     scene.add(mesh2);
+    // 网格 -- 边长是1000，50 表示纵横细分线条数量, 后面2个参赛 2个线条的颜色
+    var helper = new THREE.GridHelper(1000, 50, 0x0000ff, 0x808080);
+    scene.add(helper);
+  }
+  //用户交互插件 鼠标左键按住旋转，右键按住平移，滚轮缩放
+  function initControls() {
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    // 如果使用animate方法时，将此函数删除
+    //controls.addEventListener( 'change', render );
+    // 使动画循环使用时阻尼或自转 意思是否有惯性
+    controls.enableDamping = true;
+    //动态阻尼系数 就是鼠标拖拽旋转灵敏度
+    controls.dampingFactor = 0.25;
+    //是否可以缩放
+    controls.enableZoom = true;
+    //是否自动旋转
+    controls.autoRotate = true;
+    //设置相机距离原点的最近距离
+    controls.minDistance = 50;
+    //设置相机距离原点的最远距离
+    controls.maxDistance = 300;
+    //是否开启右键拖拽
+    controls.enablePan = true;
   }
   function draw() {
     renderer.render(scene, camera);
     mesh2.rotation.x += 0.01;
     mesh2.rotation.y += 0.01;
-    // 更新纹理
-    texture.needsUpdate = true;
+    controls.update();
     requestAnimationFrame(draw);
   }
   function main() {
     renders();
     cameras();
     geometry();
+    initControls();
     draw();
   }
   main();

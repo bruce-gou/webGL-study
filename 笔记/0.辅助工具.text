@@ -1,0 +1,11 @@
+ // 网格 -- 边长是1000，50 表示纵横细分线条数量, 后面2个参赛 2个线条的颜色
+    var helper = new THREE.GridHelper(1000, 50, 0x0000ff, 0x808080);
+    scene.add(helper);
+
+// 相机辅助工具
+    var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    scene.add(helper);
+
+//  坐标辅助工具
+    var helper = new THREE.AxisHelper(10);
+    scene.add(helper);
