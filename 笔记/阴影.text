@@ -1,0 +1,42 @@
+阴影需要什么
+	1.只有支持阴影的灯光才可以
+	  pointLight，spotlight，directionallight
+
+	2.添加摄像机辅助器 THREE.CameraHelper
+	  var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+  	  scene.add(helper);
+
+	3.查看阴影摄像机的相关设置
+	  light.shadow.camera.left //此四项值为阴影投射方向,需要注意，正负值不确定，可以使用dat.gui.js，设置灯光等值，调试查看
+
+   	  light.shadow.camera. right
+
+	  left为负,bottom为负，其他为正阴影投射在屏幕正前方
+
+          right为负，bottom为负阴影投射到屏幕的后方
+
+   	  light.shadow.camera.top
+
+   	  light.shadow.camera.bottom
+
+   	  light.shadow.camera.near //如果看不到阴影，远近截面设置不对，尝试远截面设置大一点
+
+   	  light.shadow.camera.far
+
+
+
+	4.最后一步需要确认几项设置
+
+	    renderer.shadowMap.enabled = true; // // 告诉渲染器需要阴影效果
+
+   	    light.castShadow = true; // 灯光开启投影影射
+
+   	    mesh.castShdow = true; // 几何图形生成投影
+
+   	    plane.receiveShaow = true; // 平面接收阴影设置
+
+
+
+
+
+

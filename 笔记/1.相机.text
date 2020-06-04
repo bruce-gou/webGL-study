@@ -1,0 +1,47 @@
+1. 正投影相机
+ 
+    平行光， 看到的远近的物体都是一样大的。
+
+    THREE.OrthographicCamera( left, right, top, bottom, near, far);
+    
+    left: 相机距离左平面的距离
+    right: 相机距离右平面的距离
+    bottom: 相机距离下平面的距离
+    top: 相机距离上平面的距离
+    far: 相机距离远平面的距离， 不能为负
+    near: 相机距离近平面的距离，不能为负
+
+2. 透视投影相机
+
+    一个点的散发的光，看物体 近大远小， 跟人的眼睛看到的是一样的。
+
+    var Camera = THREE.PerspectiveCamera( fov, aspect, near, far);
+   
+    fov: 视角角度，相当于 人眼睛睁开的大小， 例如 ：45度
+    aspect: 比列 场景宽高的比列
+    near: 相机距离近平面的距离，不能为负 看到的最近距离
+    far: 相机距离远平面的距离， 不能为负 看到的最远距离
+
+    
+    Camera.position.x = 0; // 相机位置 x
+    Camera.position.y = 0; // 相机位置 y
+    Camera.position.z = 600; // 相机位置 z 相当于 相机放在场景600米远的地方在看
+    Camera.up.x = 0; // up 相机上方向 
+    Camera.up.y = 0;
+    Camera.up.z = 0;
+    Camera.lookAt({ x: 0, y: 0, z: 0 }); // 相机视点，相当于相机摆放方向
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
