@@ -1,0 +1,13 @@
+var geometry = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象Geometry
+// 几何体xyz三个方向都放大2倍
+geometry.scale(2, 2, 2);
+// 几何体沿着x轴平移50
+geometry.translate(50, 0, 0);
+// 几何体绕着x轴旋转45度
+geometry.rotateX(Math.PI / 4);
+// 居中：偏移的几何体居中
+geometry.center();
+console.log(geometry.vertices);
+
+
+注意网格模型Mesh进行缩放旋转平移变换和几何体Geometry可以实现相同的渲染效果，但是网格模型Mesh进行这些变换不会影响几何体的顶点位置坐标，网格模型缩放旋转平移变换改变的是模型的本地矩阵、世界矩阵。

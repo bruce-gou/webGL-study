@@ -9,3 +9,51 @@
 //  坐标辅助工具
     var helper = new THREE.AxisHelper(10);
     scene.add(helper);
+
+// 聚光源辅助对象
+	var spotLightHelper = new THREE.SpotLightHelper( spotLight );
+	scene.add( spotLightHelper );
+
+	构造函数
+	SpotLightHelper( light : SpotLight, color : Hex )
+	light -- 被模拟的聚光灯 SpotLight .
+
+	color -- (可选的) 如果没有赋值辅助对象将使用光源的颜色.
+
+// 点光源辅助对象
+	var sphereSize = 1;
+	var pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+	scene.add( pointLightHelper );
+
+	构造函数
+	PointLightHelper( light : PointLight, sphereSize : Float, color : Hex )
+	light -- 要模拟的光源.
+
+	sphereSize -- (可选的) 球形辅助对象的尺寸. 默认为 1.
+
+	color -- (可选的) 如果没有赋值辅助对象将使用光源的颜色.
+
+
+// 平行光辅助对象
+	var light = new THREE.DirectionalLight( 0xFFFFFF );
+
+	var helper = new THREE.DirectionalLightHelper( light, 5 );
+
+	scene.add( helper );
+	构造函数
+	DirectionalLightHelper( light : DirectionalLight, size : Number, color : Hex )
+	light-- 被模拟的光源.
+
+	size -- (可选的) 平面的尺寸. 默认为 1.
+
+	color -- (可选的) 如果没有设置颜色将使用光源的颜色.
+
+
+公有方法： 
+	.dispose ()  // 销毁辅助工具
+	.update () // 更新辅助工具
+
+
+
+
+

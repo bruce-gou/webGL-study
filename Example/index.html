@@ -51,20 +51,29 @@
 
   // 几何体
   function geometry() {
-    var geometry = new THREE.BoxGeometry(30, 30, 30);
-    // 生成随机颜色- 给几何体每一面的不一样的颜色
-    for (var i = 0; i < geometry.faces.length; i += 2) {
-      var hex = Math.random() * 0xffffff;
-      geometry.faces[i].color.setHex(hex);
-      geometry.faces[i + 1].color.setHex(hex);
-    }
-    var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
-    mesh2 = new THREE.Mesh(geometry, material);
-    mesh2.position = new THREE.Vector3(0, 0, 0);
-    scene.add(mesh2);
+    //创建两个网格模型mesh1、mesh2
+    var geometry = new THREE.BoxGeometry(20, 20, 20);
+    var material = new THREE.MeshLambertMaterial({ color: 0x0000ff });
+    var group = new THREE.Group();
+    var mesh1 = new THREE.Mesh(geometry, material);
+    var mesh2 = new THREE.Mesh(geometry, material);
+    var mesh3 = new THREE.Mesh(geometry, material);
+    mesh2.translateX(25);
+    mesh3.translateX(50);
+    //把mesh1型插入到组group中，mesh1作为group的子对象
+    group.add(mesh1);
+    //把mesh2型插入到组group中，mesh2作为group的子对象
+    group.add(mesh2);
+    group.add(mesh3);
+    //把group插入到场景中作为场景子对象
+    group.translateY(100);
+    scene.add(group);
     // 网格 -- 边长是1000，50 表示纵横细分线条数量, 后面2个参赛 2个线条的颜色
     var helper = new THREE.GridHelper(1000, 50, 0x0000ff, 0x808080);
     scene.add(helper);
+
+    var ambient = new THREE.AmbientLight(0xFFFFFF);
+    scene.add(ambient);
   }
   //用户交互插件 鼠标左键按住旋转，右键按住平移，滚轮缩放
   function initControls() {
@@ -89,8 +98,8 @@
   }
   function draw() {
     renderer.render(scene, camera);
-    mesh2.rotation.x += 0.01;
-    mesh2.rotation.y += 0.01;
+    // mesh2.rotation.x += 0.01;
+    // mesh2.rotation.y += 0.01;
     controls.update();
     requestAnimationFrame(draw);
   }
