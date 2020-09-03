@@ -1,0 +1,93 @@
+
+1. 分配缓存的形状 BufferGeometry
+
+	在一半编程中，物体的形状可以用一个类 Geometry 来表示。物体的顶点内容如果要放到缓冲区中，也可以用new 分配一块连续的内存。物体和内存是分离的，而在three.js 中，开发者将两者统一起来，形成了一个新类，这个类就是 THREE.BufferGeometry
+	
+	顾名思义，它可以这样表示
+	THREE.BufferGeometry = Buffer + THREE.Geometry
+
+
+	它是缓冲和形状的组合。它的构造函数非常简单，不带任何参数，如下：
+	THREE.BufferGeometry = function(){}
+
+	
+    (1) 深入BufferGeometry
+	
+	BufferGeomtry 是自由度最高的geometry 类型了，你可以自由指定每个顶点的位置、颜色、法线(影响光照)。进一步理解 Buffer (缓冲区), 就是将 顶点位置数组、顶点颜色数组 等放在一个缓冲区中，以加快加载和运行速度
+
+	这些缓冲区存储在 BufferGeometry 的一个属性教 attributes 的集合对象里面，它初始化的时候是空的，如下：
+	
+	this.attributes = {};
+
+
+
+	这个集合里面可以放4种 属性的内容，分别是： 索引index 、 位置position 、 法线normal 、 颜色color 。
+	
+	案列：
+	
+	geometry.attributes = {
+	
+	    index:{
+		itemSize: 1,
+		array: new Uint16Array(triangles * 3),
+		numItems: triangles * 3
+
+	    },
+	    position:{
+		itemSize: 3,
+		array: new Float32Array(triangles * 3 * 3),
+		numItems: triangles * 3 * 3
+	    },
+	    normal:{
+		itemSize: 3,
+		array: new Float32Array(triangles * 3 * 3),
+		numItems: triangles * 3 * 3
+	    },
+	    color: {
+		itemSize: 3,
+		array: new Float32Array(triangles * 3 * 3),
+		numItems: triangles * 3 * 3
+	    }
+	}
+	
+	在 attributes 中的每一个项目都是由3个成员组成，以color 为例。
+	
+    （2）Color 表示颜色。
+	
+	Color 由 itemSize、array、numItems组成。
+		itemSize: 表示color中的一个项目或者单元由几个字节组成。
+		numItems: 表示一个有多少个项目。
+		Array：表示项目所占的内存数组。
+
+	Array 表示存储数据的连续的数组。所有的关键就在这里，调用 javascript 的 Uint16Array、Float32Array 等对象就能够分配指定的整型或者浮点型数组。由他们分配的数组是线性的，连续的单元，所以cpu 访问的速度极快无比。
+
+	Uint16Array 这个对象分配指定个数的16位无符号整数，初始值为0。 如果因为内存紧张，无法分配请求数目的字节，则将引发异常，可以通过以下两种构造函数来分配一块连续的内存：
+	
+	uint16Array = new Uint16Array(length);
+	uint16Array = new Uint16Array(array);
+
+	第一种形式，只接受length,表示分配指定长度的16位无符号整数数组。
+	第二种，将 array 数组中的拷贝值拷贝一份给 uint16Array。
+
+   
+    （3）关于位置 position
+	
+	所有的三角形的顶点应该在一个以原点为中心，限定边长的正方体内，这样所有的三角形才能够在正方体内。
+	三角形的位置应该在正方体内，随机分布，这样最好的形状才象正方体。
+	
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+	
+
+	
